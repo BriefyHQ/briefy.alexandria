@@ -1,5 +1,4 @@
 """briefy.alexandria config."""
-from prettyconf import config  # noQA
+from prettyconf import config
 
-# Example environment variable
-DUMMY_ENV = config('DUMMY_ENV', default='')
+DATABASE_URL = config('DATABASE_URL',)

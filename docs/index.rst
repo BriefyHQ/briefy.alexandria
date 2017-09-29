@@ -8,11 +8,13 @@ Table of Contents
 
 .. toctree::
    :maxdepth: 1
-   :numbered:
+   :numbered: 1
    :titlesonly:
 
    intro
    contributing
+   objects/index
+   database
    codebase/index
    history
 

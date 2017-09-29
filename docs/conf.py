@@ -10,11 +10,13 @@ major_version = version[0]
 minor_version = version[1]
 
 extensions = [
+    'briefy.common.docs.workflow',
     'sphinx.ext.autodoc',
     'sphinx.ext.coverage',
     'sphinx.ext.doctest',
     'sphinx.ext.todo',
     'sphinx.ext.viewcode',
+    'sphinxcontrib.sadisp',
 ]
 
 source_suffix = '.rst'
@@ -53,3 +55,6 @@ html_theme_options = {
     'bootswatch_theme': "cosmo",
     'bootstrap_version': "3",
 }
+
+graphviz = 'dot -Tpng'.split()
+sadisplay_default_render = 'graphviz'
