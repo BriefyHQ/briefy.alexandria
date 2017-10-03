@@ -12,3 +12,4 @@ History
     * Added alembic support and first migration (rudaporto).
     * Added docker support (rudaporto).
     * Added tags ARRAY of strings to mixins.LibraryItemMixin and respective migration (rudaporto).
+    * Review .travis and tox.ini configuration (rudaporto).
