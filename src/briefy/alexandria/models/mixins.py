@@ -1,6 +1,7 @@
 """Briefy Alexandria mixins."""
 from briefy.common.db.mixins import BaseMetadata
 from briefy.common.db.mixins import Mixin
+from sqlalchemy.dialects.postgresql import ARRAY
 from sqlalchemy.dialects.postgresql import JSONB
 
 import colander
@@ -28,11 +29,29 @@ class LibraryItemMixin(BaseMetadata, Mixin):
     i.e.: 4000000
     """
 
-    properties = sa.Column(
-        JSONB,
+    tags = sa.Column(
+        ARRAY(sa.String),
+        default=list,
+        index=True,
         info={
             'colanderalchemy': {
-                'title': 'Requirement Items',
+                'title': 'Tags',
+                'typ': colander.List,
+                'missing': colander.drop,
+            }
+        }
+    )
+    """List of tags to categorize item.
+
+    i.e: ['hotel', 'room', 'berlin']
+    """
+
+    properties = sa.Column(
+        JSONB,
+        default=dict,
+        info={
+            'colanderalchemy': {
+                'title': 'Properties',
                 'typ': colander.Mapping,
                 'missing': colander.drop,
             }
