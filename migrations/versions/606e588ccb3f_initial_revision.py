@@ -72,8 +72,9 @@ def upgrade():
                     sa.Column('asset_id', postgresql.UUID(), nullable=False),
                     sa.Column('collection_id', postgresql.UUID(), nullable=False),
                     sa.Column('updated_at', AwareDateTime(), nullable=True),
-                    sa.ForeignKeyConstraint(['asset_id'], ['assets.id'], ),
-                    sa.ForeignKeyConstraint(['collection_id'], ['collections.id'], ),
+                    sa.ForeignKeyConstraint(['asset_id'], ['assets.id'], ondelete='CASCADE'),
+                    sa.ForeignKeyConstraint(['collection_id'], ['collections.id'],
+                                            ondelete='CASCADE'),
                     sa.PrimaryKeyConstraint('asset_id', 'collection_id')
                     )
     op.create_index(op.f('ix_assets_collections_created_at'), 'assets_collections', ['created_at'],
