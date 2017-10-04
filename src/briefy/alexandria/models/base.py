@@ -9,6 +9,7 @@ import sqlalchemy as sa
 
 
 class AssetsCollection(Timestamp, Base):
+    """Relationship between Assets and Collections."""
 
     __tablename__ = 'assets_collections'
 

@@ -1,4 +1,4 @@
-"""briefy.alexandria."""
+"""Initialization of briefy.alexandria package."""
 from briefy import alexandria
 from briefy.alexandria.db import get_db
 from briefy.alexandria.db import get_engine
@@ -23,7 +23,7 @@ XMLConfig('configure.zcml', alexandria)()
 
 
 def includeme(config):
-    """Configuration to be included by other services."""
+    """Include config to be included by other services."""
     config.registry['db_session_factory'] = Session
     config.add_request_method(get_db, 'db', reify=True)
     config.include('briefy.ws')
