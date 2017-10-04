@@ -15,27 +15,37 @@ class AssetsCollection(Timestamp, Base):
 
     __session__ = Session
 
+    __exclude_attributes__ = ['asset', 'collection', 'created_at', 'updated_at']
+
+    __colanderalchemy_config__ = {
+        'excludes': [
+            'collection', 'asset'
+        ],
+    }
+
     asset_id = sa.Column(
-        UUID,
-        sa.ForeignKey('assets.id'),
+        UUID(as_uuid=True),
+        sa.ForeignKey('assets.id', ondelete='CASCADE'),
         primary_key=True,
         info={
             'colanderalchemy': {
                 'title': 'Asset ID',
                 'validator': colander.uuid,
+                'missing': colander.drop,
                 'typ': colander.String
             }
         }
     )
 
     collection_id = sa.Column(
-        UUID,
-        sa.ForeignKey('collections.id'),
+        UUID(as_uuid=True),
+        sa.ForeignKey('collections.id', ondelete='CASCADE'),
         primary_key=True,
         info={
             'colanderalchemy': {
                 'title': 'Collection ID',
                 'validator': colander.uuid,
+                'missing': colander.drop,
                 'typ': colander.String
 
             }
@@ -43,11 +53,9 @@ class AssetsCollection(Timestamp, Base):
     )
 
     asset = sa.orm.relationship(
-        'Asset',
-        backref='collections'
+        'Asset'
     )
 
     collection = sa.orm.relationship(
-        'Collection',
-        backref='assets'
+        'Collection'
     )

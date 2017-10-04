@@ -11,13 +11,29 @@ import sqlalchemy as sa
 class LibraryItemMixin(BaseMetadata, Mixin):
     """Library item mixin definition."""
 
-    source_path = sa.Column(sa.String(), nullable=False)
+    source_path = sa.Column(
+        sa.String(),
+        nullable=False,
+        index=True,
+        unique=True,
+        info={
+            'colanderalchemy': {
+                'title': 'Source Path',
+                'typ': colander.String,
+                'missing': '',
+            }
+        }
+    )
     """Path to the source file in the storage.
 
     i.e.: files/foo/bar/image.jpg
     """
 
-    content_type = sa.Column(sa.String(100), nullable=False)
+    content_type = sa.Column(
+        sa.String(100),
+        nullable=False,
+        default='application/briefy.alexandria-collection'
+    )
     """Mime type of the file.
 
     i.e.: image/jpeg

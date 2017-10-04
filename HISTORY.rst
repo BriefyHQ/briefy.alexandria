@@ -13,3 +13,8 @@ History
     * Added docker support (rudaporto).
     * Added tags ARRAY of strings to mixins.LibraryItemMixin and respective migration (rudaporto).
     * Review .travis and tox.ini configuration (rudaporto).
+    * Improve many to many relationship between Asset and Collection models (rudaporto).
+    * Config colanderalchemy attribute in Asset and Collection models (rudaporto).
+    * Config to_dict attributes and customize to_dict for Asset and Collection (rudaporto).
+    * Added customized create and update method for Asset and Collection to deal with relationship field (rudaporto).
+    * Added customized validation for many to many relationship field to get instance from database from ID (rudaporto).

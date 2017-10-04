@@ -40,6 +40,7 @@ def upgrade():
     op.create_index(op.f('ix_assets_state'), 'assets', ['state'], unique=False)
     op.create_index(op.f('ix_assets_title'), 'assets', ['title'], unique=False)
     op.create_index(op.f('ix_assets_updated_at'), 'assets', ['updated_at'], unique=False)
+    op.create_index(op.f('ix_assets_source_path'), 'assets', ['source_path'], unique=True)
     op.create_table('collections',
                     sa.Column('id', types.UUIDType(), nullable=False),
                     sa.Column('title', sa.String(), nullable=True),
@@ -65,6 +66,7 @@ def upgrade():
     op.create_index(op.f('ix_collections_state'), 'collections', ['state'], unique=False)
     op.create_index(op.f('ix_collections_title'), 'collections', ['title'], unique=False)
     op.create_index(op.f('ix_collections_updated_at'), 'collections', ['updated_at'], unique=False)
+    op.create_index(op.f('ix_collections_source_path'), 'collections', ['source_path'], unique=True)
     op.create_table('assets_collections',
                     sa.Column('created_at', AwareDateTime(), nullable=True),
                     sa.Column('asset_id', postgresql.UUID(), nullable=False),
@@ -91,10 +93,12 @@ def downgrade():
     op.drop_index(op.f('ix_collections_slug'), table_name='collections')
     op.drop_index(op.f('ix_collections_parent_id'), table_name='collections')
     op.drop_index(op.f('ix_collections_created_at'), table_name='collections')
+    op.drop_index(op.f('ix_collections_source_path'), table_name='collections')
     op.drop_table('collections')
     op.drop_index(op.f('ix_assets_updated_at'), table_name='assets')
     op.drop_index(op.f('ix_assets_title'), table_name='assets')
     op.drop_index(op.f('ix_assets_state'), table_name='assets')
     op.drop_index(op.f('ix_assets_slug'), table_name='assets')
     op.drop_index(op.f('ix_assets_created_at'), table_name='assets')
+    op.drop_index(op.f('ix_assets_source_path'), table_name='assets')
     op.drop_table('assets')
