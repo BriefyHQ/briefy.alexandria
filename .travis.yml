@@ -6,15 +6,23 @@ branches:
   - master
   - develop
 env:
+  global:
+  - AWS_ACCESS_KEY_ID='foo' AWS_DEFAULT_REGION='us-east-1' AWS_SECRET_ACCESS_KEY='bar'
+    ENV='test' SQS_PORT=5000 BOTO_CONFIG=/tmp/nowhere
+    DATABASE_URL=postgresql://briefy:briefy@127.0.0.1:9988/briefy-alexandria-unit_test
+  matrix:
   - TOX_ENV=py36
   - TOX_ENV=lint
   - TOX_ENV=coverage
-
 install:
+- docker run -d -p 127.0.0.1:6379:6379 --name redis redis
+- docker run -d -p 127.0.0.1:5000:5000 --name sqs briefy/aws-test:latest sqs
+- docker run -d -p 127.0.0.1:9988:5432 -e POSTGRES_PASSWORD=briefy -e POSTGRES_USER=briefy -e POSTGRES_DB=briefy-alexandria-unit_test --name briefy.alexandria-unit_test mdillon/postgis:9.6
 - pip install -r requirements/dev.txt
-
 script:
 - tox -e $TOX_ENV
-
 after_success:
 - make docs
+- git fetch --unshallow
+notifications:
+  slack: briefy:qxjOPwcrGEtVx3aCQBr812t9
