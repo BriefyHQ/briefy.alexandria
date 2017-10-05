@@ -18,3 +18,6 @@ History
     * Config to_dict attributes and customize to_dict for Asset and Collection (rudaporto).
     * Added customized create and update method for Asset and Collection to deal with relationship field (rudaporto).
     * Added customized validation for many to many relationship field to get instance from database from ID (rudaporto).
+    * Define to_listing_dict attributes for Asset and Collection (rudaporto).
+    * Customize Collection.to_listing_dict to return also the assets attribute (rudaporto).
+

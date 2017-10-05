@@ -37,6 +37,8 @@ class Asset(LibraryItemMixin, Base):
         'id', 'slug', 'title', 'description', 'source_path', 'content_type', 'size', 'tags'
     ]
 
+    __listing_attributes__ = __summary_attributes__
+
     __exclude_attributes__ = ['collections_map']
 
     __colanderalchemy_config__ = {

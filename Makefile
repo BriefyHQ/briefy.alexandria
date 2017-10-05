@@ -126,7 +126,7 @@ create_dockers:
 	docker run -d -p 127.0.0.1:9989:5432 -e POSTGRES_PASSWORD=briefy -e POSTGRES_USER=briefy -e POSTGRES_DB=briefy-alexandria --name briefy.alexandria-test mdillon/postgis:9.6
 	docker run -d -p 127.0.0.1:9988:5432 -e POSTGRES_PASSWORD=briefy -e POSTGRES_USER=briefy -e POSTGRES_DB=briefy-alexandria-unit_test --name briefy.alexandria-unit_test mdillon/postgis:9.6
 	echo "Waiting Posgtres to start"
-	sleep 40s
+	sleep 10s
 
 release: clean ## package and upload a release
 	python setup.py sdist upload

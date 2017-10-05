@@ -53,7 +53,7 @@ class Collection(LibraryItemMixin, Base):
         'id', 'slug', 'title', 'description', 'source_path', 'content_type', 'size', 'tags'
     ]
 
-    __to_dict_additional_attributes__ = ['assets']
+    __listing_attributes__ = __summary_attributes__
 
     _workflow = CollectionWorkflow
 
@@ -177,6 +177,16 @@ class Collection(LibraryItemMixin, Base):
         data = super().to_dict(excludes=excludes, includes=includes)
         data['assets'] = [item for item in self.assets if item]
         data['children'] = [item.to_summary_dict() for item in self.children if item]
+        return data
+
+    def to_listing_dict(self) -> dict:
+        """Return a listing-ready version of the dict representation of this Class.
+
+        Used to serialize this object for listings.
+        :returns: Dictionary with fields and values used by this Class
+        """
+        data = super().to_listing_dict()
+        data['assets'] = [item for item in self.assets if item]
         return data
 
     def update(self, values: dict):
