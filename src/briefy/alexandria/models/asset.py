@@ -1,4 +1,5 @@
 """Asset definition."""
+from briefy.alexandria import config
 from briefy.alexandria.models.base import AssetsCollection
 from briefy.alexandria.models.mixins import LibraryItemMixin
 from briefy.alexandria.db import Base
@@ -14,8 +15,6 @@ import uuid
 
 
 Attributes = t.List[str]
-
-DEFAULT_BUCKET = '/assets'
 
 
 class Asset(LibraryItemMixin, Base):
@@ -77,14 +76,18 @@ class Asset(LibraryItemMixin, Base):
         :param value: value to be validated
         :return: value after validation
         """
-        value = value if value else str(self.id)
+        if not value:
+            value = f'{config.AWS_ASSETS_SOURCE}/{self.id}'
+            if self.content_type == 'image/jpeg':
+                value = f'{value}.jpg'
+
         existing = self.query().filter_by(source_path=value).one_or_none()
         if existing:
             klass_name = self.__class__.__name__
             message = f'Source path should be unique.' \
                       f'Existing {klass_name} path: {value} id: {existing.id}'
             raise ValidationError(message=message, name=key)
-        return f'{DEFAULT_BUCKET}/{value}'
+        return value
 
     @sa.orm.validates('collections_map')
     def validate_collections_map(self, key: str, value: list) -> AssetsCollection:
