@@ -20,3 +20,6 @@ History
     * Added customized validation for many to many relationship field to get instance from database from ID (rudaporto).
     * Define to_listing_dict attributes for Asset and Collection (rudaporto).
     * Customize Collection.to_listing_dict to return also the assets attribute (rudaporto).
+    * Added custom comparator to filter the tags field using customized query (rudaporto).
+    * Added to Assets view the option to filter the collections field (rudaporto).
+    * Added to Collections view the option to filter the assets field (rudaporto).

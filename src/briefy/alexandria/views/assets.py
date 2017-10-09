@@ -50,6 +50,10 @@ class AssetService(RESTService):
         'DELETE': events.AssetDeletedEvent,
     }
 
+    filter_related_fields = [
+        'collections'
+    ]
+
 
 @resource(
     collection_path=PATH + '/transitions',

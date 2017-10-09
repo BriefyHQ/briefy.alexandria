@@ -1,11 +1,29 @@
 """Briefy Alexandria mixins."""
+from briefy.common.db.comparator import BaseComparator
 from briefy.common.db.mixins import BaseMetadata
 from briefy.common.db.mixins import Mixin
 from sqlalchemy.dialects.postgresql import ARRAY
 from sqlalchemy.dialects.postgresql import JSONB
+from sqlalchemy.ext.hybrid import hybrid_property
 
 import colander
 import sqlalchemy as sa
+
+
+class LibraryTagsComparator(BaseComparator):
+    """Customized comparator to filter the title from the Order."""
+
+    def operate(self, op, other, escape=None):
+        """Build the query transform function."""
+        def transform(query):
+            """Transform the query applying a filter."""
+            values = other.split(',')
+            cls = self.__clause_element__()
+            filters = [cls._tags.any(value) for value in values]
+            query = query.filter(sa.and_(*filters))
+            return query
+
+        return transform
 
 
 class LibraryItemMixin(BaseMetadata, Mixin):
@@ -45,7 +63,8 @@ class LibraryItemMixin(BaseMetadata, Mixin):
     i.e.: 4000000
     """
 
-    tags = sa.Column(
+    _tags = sa.Column(
+        'tags',
         ARRAY(sa.String),
         default=list,
         index=True,
@@ -61,6 +80,21 @@ class LibraryItemMixin(BaseMetadata, Mixin):
 
     i.e: ['hotel', 'room', 'berlin']
     """
+
+    @hybrid_property
+    def tags(self):
+        """Tags getter."""
+        return self._tags
+
+    @tags.setter
+    def tags(self, value: list):
+        """Tags setter."""
+        self._tags = value
+
+    @tags.comparator
+    def tags(cls) -> LibraryTagsComparator:
+        """Tags comparator."""
+        return LibraryTagsComparator(cls)
 
     properties = sa.Column(
         JSONB,

@@ -14,7 +14,7 @@ def get_db(request):
     """Return a valid DB session for the request."""
     return request.registry['db_session_factory']()
 
-# If needed: tweaks to make new objects remains avialble in views after being commited -
+# If needed: tweaks to make new objects remains available in views after being commit -
 # from http://stackoverflow.com/questions/16152241
 
 
