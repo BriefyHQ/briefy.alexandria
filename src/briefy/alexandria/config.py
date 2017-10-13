@@ -1,5 +1,7 @@
 """briefy.alexandria config."""
-from prettyconf import config  # noQA
+from prettyconf import config
 
-# Example environment variable
-DUMMY_ENV = config('DUMMY_ENV', default='')
+DATABASE_URL = config('DATABASE_URL',)
+
+# aws assets base
+AWS_ASSETS_SOURCE = config('AWS_ASSETS_SOURCE', default='source/assets')

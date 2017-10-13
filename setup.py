@@ -11,7 +11,12 @@ with open(os.path.join(here, 'HISTORY.rst')) as f:
     CHANGES = f.read()
 
 requires = [
+    'briefy.common',
+    'briefy.ws',
     'prettyconf',
+    'pyramid==1.9.1',
+    'pyramid_tm',
+    'pyramid_zcml',
     'setuptools',
 ]
 
@@ -42,5 +47,8 @@ setup(
     test_suite='tests',
     tests_require=test_requirements,
     install_requires=requires,
-    entry_points='',
+    entry_points="""
+    [paste.app_factory]
+     main = briefy.alexandria:main
+    """,
 )

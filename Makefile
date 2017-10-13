@@ -96,6 +96,38 @@ docs: ## generate Sphinx HTML documentation, including API docs
 docs_server: docs
 	@cd $(BUILDDIR)/dirhtml; $(HTTPSERVER)
 
+start_dockers:
+	docker start redis
+	docker start memcached
+	docker start sqs
+	docker start briefy.alexandria-test
+	docker start briefy.alexandria-unit_test
+
+stop_dockers: ## stop and remove docker containers
+	docker stop redis
+	docker stop memcached
+	docker stop sqs
+	docker stop briefy.alexandria-test
+	docker stop briefy.alexandria-unit_test
+
+clean_dockers: stop_dockers
+	docker rm redis
+	docker rm memcached
+	docker rm sqs
+	docker rm briefy.alexandria-test
+	docker rm briefy.alexandria-unit_test
+
+
+create_dockers:
+	docker run -d -p 127.0.0.1:6379:6379 --name redis redis
+	docker run -p 127.0.0.1:11211:11211 --name memcached -d memcached memcached -m 128
+	docker run -d -p 127.0.0.1:5000:5000 --name sqs briefy/aws-test:latest sqs
+	export SQS_IP=127.0.0.1 SQS_PORT=5000
+	docker run -d -p 127.0.0.1:9989:5432 -e POSTGRES_PASSWORD=briefy -e POSTGRES_USER=briefy -e POSTGRES_DB=briefy-alexandria --name briefy.alexandria-test mdillon/postgis:9.6
+	docker run -d -p 127.0.0.1:9988:5432 -e POSTGRES_PASSWORD=briefy -e POSTGRES_USER=briefy -e POSTGRES_DB=briefy-alexandria-unit_test --name briefy.alexandria-unit_test mdillon/postgis:9.6
+	echo "Waiting Posgtres to start"
+	sleep 10s
+
 release: clean ## package and upload a release
 	python setup.py sdist upload
 	python setup.py bdist_wheel upload
