@@ -1,10 +1,9 @@
 #!/bin/sh
-# enable gunicorn in development
-if [ ${ENV}="development" ]
+if [ "${ENV}" == "test" ];
 then
-    COMMAND="gunicorn --paste"
-else
     COMMAND="pserve"
+else
+    COMMAND="gunicorn --paste"
 fi
 
 export NEW_RELIC_CONFIG_FILE=/app/newrelic.ini
