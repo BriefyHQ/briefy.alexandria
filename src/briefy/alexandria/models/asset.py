@@ -38,6 +38,8 @@ class Asset(LibraryItemMixin, Base):
 
     __listing_attributes__ = __summary_attributes__
 
+    __to_dict_additional_attributes__ = ['properties']
+
     __exclude_attributes__ = ['collections_map']
 
     __colanderalchemy_config__ = {
@@ -82,7 +84,7 @@ class Asset(LibraryItemMixin, Base):
                 value = f'{value}.jpg'
 
         existing = self.query().filter_by(source_path=value).one_or_none()
-        if existing:
+        if existing and str(existing.id) != str(self.id):
             klass_name = self.__class__.__name__
             message = f'Source path should be unique.' \
                       f'Existing {klass_name} path: {value} id: {existing.id}'
