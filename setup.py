@@ -27,7 +27,7 @@ test_requirements = [
 
 setup(
     name='briefy.alexandria',
-    version='0.1.0',
+    version='1.0.0',
     description='Digital Assets Library: store and search digital assets data and metadata.',
     long_description=README + '\n\n' + CHANGES,
     classifiers=[

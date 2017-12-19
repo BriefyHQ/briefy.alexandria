@@ -2,7 +2,7 @@
 History
 =======
 
-0.1.0 (Unreleased)
+1.0.0 (2017-12-19)
 ------------------
 
     * Initial implementation (rudaporto).
@@ -23,3 +23,5 @@ History
     * Added custom comparator to filter the tags field using customized query (rudaporto).
     * Added to Assets view the option to filter the collections field (rudaporto).
     * Added to Collections view the option to filter the assets field (rudaporto).
+    * Fix asset source_path validation to only raise ValueError if we are not updating the current asset (rudaporto).
+    * Fix: properties field not being persisted since colander needs JSONType to know how to handle mapping attributes (rudaporto.
