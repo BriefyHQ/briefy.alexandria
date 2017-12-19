@@ -38,6 +38,8 @@ class Asset(LibraryItemMixin, Base):
 
     __listing_attributes__ = __summary_attributes__
 
+    __to_dict_additional_attributes__ = ['properties']
+
     __exclude_attributes__ = ['collections_map']
 
     __colanderalchemy_config__ = {

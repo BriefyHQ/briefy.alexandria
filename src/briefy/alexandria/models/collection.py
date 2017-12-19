@@ -55,6 +55,8 @@ class Collection(LibraryItemMixin, Base):
 
     __listing_attributes__ = __summary_attributes__
 
+    __to_dict_additional_attributes__ = ['properties']
+
     _workflow = CollectionWorkflow
 
     parent_id = sa.Column(

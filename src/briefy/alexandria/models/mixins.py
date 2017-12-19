@@ -2,9 +2,11 @@
 from briefy.common.db.comparator import BaseComparator
 from briefy.common.db.mixins import BaseMetadata
 from briefy.common.db.mixins import Mixin
+from briefy.common.utils.schema import JSONType
 from sqlalchemy.dialects.postgresql import ARRAY
 from sqlalchemy.dialects.postgresql import JSONB
 from sqlalchemy.ext.hybrid import hybrid_property
+from sqlalchemy.orm.attributes import flag_modified
 
 import colander
 import sqlalchemy as sa
@@ -96,13 +98,14 @@ class LibraryItemMixin(BaseMetadata, Mixin):
         """Tags comparator."""
         return LibraryTagsComparator(cls)
 
-    properties = sa.Column(
+    _properties = sa.Column(
+        'properties',
         JSONB,
         default=dict,
         info={
             'colanderalchemy': {
                 'title': 'Properties',
-                'typ': colander.Mapping,
+                'typ': JSONType,
                 'missing': colander.drop,
             }
         }
@@ -111,3 +114,14 @@ class LibraryItemMixin(BaseMetadata, Mixin):
 
     Dictionary containing custom properties.
     """
+
+    @hybrid_property
+    def properties(self):
+        """Properties getter."""
+        return self._properties
+
+    @properties.setter
+    def properties(self, value):
+        """Properties setter."""
+        self._properties = value
+        flag_modified(self, '_properties')
